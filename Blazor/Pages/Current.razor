@@ -1,0 +1,55 @@
+﻿@page "/current"
+@inject HttpClient Http
+
+<PageTitle>Current State</PageTitle>
+
+<h1>Current State</h1>
+
+<p>This component demonstrates fetching data from the server.</p>
+
+@if (currentState == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+<div>
+   <h1>@currentState.groupName</h1>
+    <p>Money</p>
+    <p>@currentState.money</p>
+    <p>Water Level</p>
+    <p>@currentState.waterLevel</p>
+    <p>Water Influx</p>
+    <p>@influx</p>
+    <p>Environmental Cost</p>
+    <p>@currentState.environmentCost</p>
+</div>
+}
+
+@code {
+    private GroupState? currentState;
+    private double? influx;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var url = "/api/GroupState";
+
+        currentState = await Http.GetFromJsonAsync<GroupState>(url);
+        influx = await Http.GetFromJsonAsync<double>("/api/waterinflux");
+
+
+
+    }
+
+    public class GroupState
+    {
+        public string groupName { get; set; }
+
+        public Int64 money { get; set; }
+
+        public double waterLevel { get; set; }
+
+        public Int64 environmentCost { get; set; }
+    }
+}
+
