@@ -24,14 +24,21 @@ else
         <tbody>
             @foreach (var turbine in Turbines)
             {
+                var linkURL = $"turbine/{turbine.Id}/{turbine.CapacityUsage}";
                 <tr>
-                    <td>@turbine.Id</td>
-                    <td>@turbine.CapacityUsage</td>
+                    <td>
+                        <NavLink href="@linkURL">@turbine.Id</NavLink>
+                    </td>
+                    <td>
+                        @turbine.CapacityUsage
+                    </td>
                 </tr>
             }
         </tbody>
     </table>
 }
+
+
 
 @code {
     private Turbine[]? Turbines;
@@ -45,7 +52,7 @@ else
 
     public class Turbine
     {
-        public string Id { get; set; }
+        public string? Id { get; set; }
 
         public double CapacityUsage { get; set; }
     }
