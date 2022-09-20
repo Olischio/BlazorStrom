@@ -1,5 +1,6 @@
 ﻿@page "/turbine/{id}/{capacityusage:double}"
 @inject HttpClient Http
+@inject NavigationManager NavManager
 
 
 <h3>Change Turbine Settings</h3>
@@ -48,7 +49,9 @@
     private async Task  HandleValidSubmit()
     {
 
-        await this.Http.PutAsync($"/api/Turbines/{this.exampleModel.Id}?capacityUsage={this.exampleModel.CapacityUsage}",null);
+        var response = await this.Http.PutAsync($"/api/Turbines/{this.exampleModel.Id}?capacityUsage={this.exampleModel.CapacityUsage}",null);
+        response.EnsureSuccessStatusCode();
+        NavManager.NavigateTo("/turbines");
 
     }
 
