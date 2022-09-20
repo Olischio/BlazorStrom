@@ -1,4 +1,6 @@
 ﻿@page "/turbine/{id}/{capacityusage:double}"
+@inject HttpClient Http
+
 
 <h3>Change Turbine Settings</h3>
 <p>@Id</p>
@@ -13,7 +15,7 @@
 
     
 
-    <button type="submit">Submit</button>
+    <button class="btn btn-primary" type="submit">Submit</button>
 </EditForm>
 
 
@@ -43,18 +45,11 @@
 
     }
 
-
-
-    private void HandleValidSubmit()
+    private async Task  HandleValidSubmit()
     {
-        var T = this.exampleModel;
 
-        this.exampleModel.CapacityUsage = 100;
+        await this.Http.PutAsync($"/api/Turbines/{this.exampleModel.Id}?capacityUsage={this.exampleModel.CapacityUsage}",null);
 
-
-        //Logger.LogInformation("HandleValidSubmit called");
-
-        // Process the valid form
     }
 
 }
