@@ -1,10 +1,10 @@
-﻿@page "/turbine/{id}/{capacityusage:double}"
+﻿@page "/turbine/{id}/{capacityusage:double}/{turbinename}"
+@using System.ComponentModel.DataAnnotations
 @inject HttpClient Http
 @inject NavigationManager NavManager
 
 
-<h3>Change Turbine Settings</h3>
-<p>@Id</p>
+<h3>Change Turbine Settings For @turbinename</h3>
 
 
 
@@ -23,31 +23,31 @@
 
 
 @code {
-    [Parameter]
-    public string? Id { get; set; }
+        [Parameter]
+        public string? Id { get; set; }
 
-    [Parameter]
-    public double CapacityUsage { get; set; }
+        [Parameter]
+        public string? turbinename { get; set; }
 
-    public TurbinesPage.Turbine exampleModel { get; set; } = new TurbinesPage.Turbine();
+        [Parameter]
+        public double CapacityUsage { get; set; }
 
-    protected override void OnInitialized()
-    {
+    public EditTurbineModel exampleModel { get; set; } = new EditTurbineModel();
 
-    }
 
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
 
-        exampleModel = new TurbinesPage.Turbine();
+        exampleModel = new EditTurbineModel();
         exampleModel.Id = Id;
-        exampleModel.CapacityUsage = CapacityUsage;
+        exampleModel.CapacityUsage = CapacityUsage * 100;
 
     }
 
     private async Task  HandleValidSubmit()
     {
+
         double CapacityUsageAsPercentage = this.exampleModel.CapacityUsage / 100;
 
         var response = await this.Http.PutAsync($"/api/Turbines/{this.exampleModel.Id}?capacityUsage={CapacityUsageAsPercentage}",null);
@@ -57,4 +57,14 @@
 
     }
 
+    public class EditTurbineModel
+    {
+        public string? Id { get; set; }
+
+    
+
+
+        [Range(0, 100, ErrorMessage = "Value for {0} must be between {1} and {2}.")]
+        public double CapacityUsage { get; set; }
+    }
 }

@@ -18,22 +18,32 @@ else
             <tr>
                 <th>ID</th>
                 <th>Capacity Usage</th>
-               
+
             </tr>
         </thead>
         <tbody>
-            @foreach (var turbine in Turbines)
-            {
-                var linkURL = $"turbine/{turbine.Id}/{turbine.CapacityUsage}";
-                <tr>
-                    <td>
-                        <NavLink href="@linkURL">@turbine.Id</NavLink>
-                    </td>
-                    <td>
-                        @turbine.CapacityUsage
-                    </td>
-                </tr>
+
+            @{
+                int teller = 0;
+
+                foreach (var turbine in Turbines)
+                {
+                    teller++;
+                    var turbintekst = $"Turbin {teller}";
+                    var linkURL = $"turbine/{turbine.Id}/{turbine.CapacityUsage}/{turbintekst}";
+                        <tr>
+                            <td>
+                                <NavLink href="@linkURL">@turbintekst</NavLink>
+                            </td>
+                            <td>
+                                @turbine.CapacityUsage
+                            </td>
+                        </tr>
+                }
+
             }
+
+
         </tbody>
     </table>
 }
