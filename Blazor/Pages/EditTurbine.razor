@@ -48,10 +48,12 @@
 
     private async Task  HandleValidSubmit()
     {
+        double CapacityUsageAsPercentage = this.exampleModel.CapacityUsage / 100;
 
-        var response = await this.Http.PutAsync($"/api/Turbines/{this.exampleModel.Id}?capacityUsage={this.exampleModel.CapacityUsage}",null);
+        var response = await this.Http.PutAsync($"/api/Turbines/{this.exampleModel.Id}?capacityUsage={CapacityUsageAsPercentage}",null);
         response.EnsureSuccessStatusCode();
         NavManager.NavigateTo("/turbines");
+
 
     }
 
