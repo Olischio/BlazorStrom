@@ -1,5 +1,6 @@
 ﻿@page "/turbine/{id}/{capacityusage:double}/{turbinename}"
 @using System.ComponentModel.DataAnnotations
+@using Blazorise
 @inject HttpClient Http
 @inject NavigationManager NavManager
 
@@ -10,10 +11,18 @@
 
 <EditForm Model="@exampleModel" OnValidSubmit="@HandleValidSubmit">
     <DataAnnotationsValidator />
-    <ValidationSummary />
+    <Blazorise.ValidationSummary />
 
-    <InputNumber id="name" @bind-Value="exampleModel.CapacityUsage" />
+    <Field>
+        <InputNumber id="name" @bind-Value="exampleModel.CapacityUsage" />
+    </Field>
 
+    <Paragraph>
+        Current value: @exampleModel.CapacityUsage
+    </Paragraph>
+    <Field>
+        <Slider @bind-Value="@exampleModel.CapacityUsage" Min="0" Max="100" />
+    </Field>
     
 
     <button class="btn btn-primary" type="submit">Submit</button>
