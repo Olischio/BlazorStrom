@@ -1,28 +1,54 @@
 ﻿@page "/login"
+@using Blazorise
+
 
 <PageTitle>Login</PageTitle>
 
-<h1>Counter</h1>
+<h1>login</h1>
+<p>Du er @innloggettekst()</p>
+<p>Du er @innloggetastekst</p>
 
 
-<Blazorise.Field>
-    <label>Brukernavn</label>
-    <input>
-    <InputText type="username" placeholder="Username" />
-</Blazorise.Field>
+<EditForm Model="@Model" OnValidSubmit="@HandleSubmit">
+    <Field>
+        <label class="form-label" for="username">Username</label>
 
-<p>Brukernavn</p>
-<input>
-    <InputText type="username" placeholder="Username"/>
-<label>Password</label>
-<input>
-    <InputText type="password" placeholder="Password"/>
+        <InputText id="username" class="form-control" type="username" placeholder="Username" @bind-Value="@Model.Gruppenavn" />
+    </Field>
+    <Field>
+        <label class="form-label" for="password">Passord</label>
+        <InputText id="password" class="form-control" type="password" placeholder="Password" @bind-Value="@Model.Passord" />
+    </Field>
+    <Field>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </Field>
+</EditForm>
 
-<button class="btn btn-primary" >ER DETTE PÅ NETTSIDEN??? ja  </button>
 
 
 @code {
-    class Login{
+    public LoginModel Model { get; set; } = new LoginModel();
 
+    public bool innlogget { get; set; }
+
+    private string innloggetastekst => innloggettekst();
+
+    private string innloggettekst()
+    {
+        return this.innlogget ? " logget inn" : "ikke logget inn";
+    }
+
+
+    public class LoginModel
+    {
+        public string Gruppenavn { get; set; }
+
+        public string Passord { get; set; }
+    }
+
+    public void HandleSubmit()
+    {
+        Console.WriteLine("wesfgsdgwsg");
+        innlogget = !innlogget;
     }
 }
