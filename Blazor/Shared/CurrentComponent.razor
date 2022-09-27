@@ -1,5 +1,7 @@
 ﻿@using System.Globalization
 @inject HttpClient Http
+@implements IDisposable
+
 
 @if (currentState == null)
 {
@@ -10,6 +12,8 @@ else
 
     <h1>@currentState.groupName</h1>
 
+    <h2>@SistHentet</h2>
+
     <table class="table">
         <thead>
             <tr>
@@ -17,7 +21,6 @@ else
                 <th>Water Level</th>
                 <th>Water Influx</th>
                 <th>Environment Cost</th>
-
             </tr>
         </thead>
         <tbody>
@@ -51,17 +54,51 @@ else
 @code {
     private GroupState? currentState;
     private double influx;
+    private readonly PeriodicTimer Timer = new(TimeSpan.FromSeconds(1.5));
+    private DateTime SistHentet;
 
     protected override async Task OnInitializedAsync()
+    {
+        SistHentet = DateTime.Now;
+        await HentData();
+    }
+
+    private async Task HentData()
     {
         var url = "/api/GroupState";
 
         currentState = await Http.GetFromJsonAsync<GroupState>(url);
         influx = await Http.GetFromJsonAsync<double>("/api/waterinflux");
-
-
-
     }
+
+
+    private async Task StartTimer()
+    {
+        while (await Timer.WaitForNextTickAsync())
+        {
+            await HentData();
+            SistHentet = DateTime.Now;
+            this.StateHasChanged();
+
+        }
+    }
+
+
+
+    protected override Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            var dummy = StartTimer();
+        }
+        return Task.CompletedTask;
+    }
+
+    public void Dispose()
+    {
+        Timer.Dispose();
+    }
+
 
     public class GroupState
     {
