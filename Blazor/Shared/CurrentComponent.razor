@@ -1,9 +1,5 @@
-﻿@inject HttpClient Http
-
-
-<h1>Current State</h1>
-
-<p>This component demonstrates fetching data from the server.</p>
+﻿@using System.Globalization
+@inject HttpClient Http
 
 @if (currentState == null)
 {
@@ -11,23 +7,50 @@
 }
 else
 {
-<div>
-   <h1>@currentState.groupName</h1>
-    <p>Money</p>
-    <p>@currentState.money.ToString("n0" )</p>
-    <p>Water Level</p>
-    <p>@currentState.waterLevel</p>
-    <p>Water Influx</p>
-    <p>@influx</p>
-    <p>Environmental Cost</p>
-    <p>@currentState.environmentCost</p>
 
-</div>
+    <h1>@currentState.groupName</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Money</th>
+                <th>Water Level</th>
+                <th>Water Influx</th>
+                <th>Environment Cost</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    @currentState.money.ToString("n0", CultureInfo.CreateSpecificCulture("nb-NO"))
+                </td>
+                <td>
+                    @currentState.waterLevel.ToString("n2")
+                </td>
+                <td>
+                    @influx.ToString("n3")
+                </td>
+                <td>
+                    @currentState.environmentCost.ToString("n0")
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+
+
+
+
+
+
+
+
 }
 
 @code {
     private GroupState? currentState;
-    private double? influx;
+    private double influx;
 
     protected override async Task OnInitializedAsync()
     {

@@ -6,7 +6,6 @@
 
 <h1>login</h1>
 <p>Du er @innloggettekst()</p>
-<p>Du er @innloggetastekst</p>
 
 
 <EditForm Model="@Model" OnValidSubmit="@HandleSubmit">
@@ -30,8 +29,6 @@
     public LoginModel Model { get; set; } = new LoginModel();
 
     public bool innlogget { get; set; }
-
-    private string innloggetastekst => innloggettekst();
 
     private string innloggettekst()
     {
