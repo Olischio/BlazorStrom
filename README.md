@@ -4,6 +4,7 @@ Dette er et skoleprosjekt ved F21 i sammarbeid med av Bouvet
 
 Oppgaven gikk ut på å lage en webside for styring av vannturbinene ved et fiksjonelt vannkraftverk som ble kalt Innafjord
 
+Login siden er ikke fungerende + API kall har id hardkodet, som ikke er bra
 
 ![TurbinePage](./Readme_Images/TurbineState.PNG "")
 
